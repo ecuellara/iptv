@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Películas - IPTV</title>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <!-- Categorías se cargarán aquí -->
+    </div>
+    <div class="content">
+      <!-- Películas se cargarán aquí -->
+    </div>
+  </div>
+
+  <!-- Reproductor integrado (oculto inicialmente) -->
+  <div id="player-container" class="hidden">
+    <button id="close-player">
+      <i class="fas fa-times"></i> Cerrar
+    </button>
+    <div id="now-playing"></div>
+    <video id="video-player" controls></video>
+  </div>
+
+  <a href="../home.html" class="home-button">
+    <i class="fas fa-home"></i>
+  </a>
+
+  <script src="../shared/auth.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

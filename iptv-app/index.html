@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>IPTV Login</title>
+  <link rel="stylesheet" href="shared/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Eliminada la referencia a webOS.js -->
+</head>
+<body>
+  <div class="login-container">
+    <div id="spinner" style="display: none;">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Cargando...</p>
+    </div>
+    
+    <div class="logo">
+      <i class="fas fa-tv"></i>
+      <h1>IPTV Player</h1>
+    </div>
+    
+    <form id="login-form">      
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="username" placeholder="Usuario" required>
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Contraseña" required>
+      </div>
+      <input type="hidden" id="server-url" value="http://new-weytv.live:8880">
+      
+      <button type="submit" class="btn-login">
+        <i class="fas fa-sign-in-alt"></i> Ingresar
+      </button>
+    </form>
+
+    <div id="saved-accounts" class="saved-users" style="display: none;"></div>
+  </div>
+
+  <script src="shared/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginForm = document.getElementById('login-form');
+      const spinner = document.getElementById('spinner');
+      const savedAccounts = document.getElementById('saved-accounts');
+
+      // Mostrar formulario inmediatamente
+      loginForm.style.display = 'block';
+      spinner.style.display = 'none';
+
+      // Verificar si hay sesión activa
+      Auth.getCurrentAccount((account) => {
+        if (account && account.user) {
+          spinner.style.display = 'block';
+          loginForm.style.display = 'none';
+          window.location.href = 'home.html';
+          return;
+        }
+
+        // Cargar cuentas guardadas si no hay sesión
+        Auth.getSavedAccounts((accounts) => {
+          if (accounts.length > 0) {
+            savedAccounts.style.display = 'block';
+            savedAccounts.innerHTML = accounts.map(acc => `
+              <div class="saved-account" onclick="fillLogin('${acc.server}', '${acc.user}')">
+                <span>${acc.name || acc.user}</span>
+                <button onclick="removeAccount(event, '${acc.server}', '${acc.user}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            `).join('');
+          }
+        });
+      });
+
+      // Manejar envío del formulario
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const server = document.getElementById('server-url').value;
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value.trim();
+        
+        if (!user || !pass) {
+          alert('Por favor complete todos los campos');
+          return;
+        }
+        
+        spinner.style.display = 'block';
+        loginForm.style.display = 'none';
+
+        Auth.login(server, user, pass, (success) => {
+          if (success) {
+            Auth.saveAccount({server, user, name: user}, () => {
+              window.location.href = 'home.html';
+            });
+          } else {
+            alert('Error al iniciar sesión. Intente nuevamente.');
+            spinner.style.display = 'none';
+            loginForm.style.display = 'block';
+          }
+        });
+      });
+      
+      document.getElementById('username').focus();
+    });
+
+    // Funciones globales para manejar cuentas guardadas
+    function fillLogin(server, user) {
+      document.getElementById('server-url').value = server;
+      document.getElementById('username').value = user;
+      document.getElementById('password').focus();
+    }
+
+    function removeAccount(event, server, user) {
+      event.stopPropagation();
+      if (confirm(`¿Eliminar la cuenta ${user}?`)) {
+        Auth.getSavedAccounts((accounts) => {
+          const updated = accounts.filter(a => !(a.server === server && a.user === user));
+          localStorage.setItem('iptv_saved_accounts', JSON.stringify(updated));
+          
+          const container = document.getElementById('saved-accounts');
+          if (updated.length === 0) {
+            container.style.display = 'none';
+          } else {
+            container.innerHTML = updated.map(acc => `
+              <div class="saved-account" onclick="fillLogin('${acc.server}', '${acc.user}')">
+                <span>${acc.name || acc.user}</span>
+                <button onclick="removeAccount(event, '${acc.server}', '${acc.user}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            `).join('');
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

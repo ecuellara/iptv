@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Series - IPTV</title>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <!-- Categorías de series se cargarán aquí -->
+    </div>
+    <div class="content">
+      <!-- Series y detalles se cargarán aquí -->
+    </div>
+  </div>
+
+  <!-- Reproductor -->
+  <div id="player-container">
+    <button id="close-player" style="position:absolute; top:5px; right:10px; z-index:1001; background:#c62828; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">
+      ✖ Cerrar
+    </button>
+    <div id="now-playing">Reproduciendo...</div>
+    <video id="player" controls autoplay></video>
+  </div>
+  <script>
+    document.getElementById("close-player").addEventListener("click", function () {
+      const playerContainer = document.getElementById("player-container");
+      const video = document.getElementById("player");
+      video.pause(); // pausa el video
+      video.src = ""; // limpia el video para liberar recursos
+      playerContainer.style.display = "none"; // oculta el reproductor
+    });
+  </script>
+
+  <a href="../home.html" class="home-button">
+    <i class="fas fa-home"></i>
+  </a>
+
+  <script src="../shared/auth.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

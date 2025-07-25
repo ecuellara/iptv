@@ -1,0 +1,329 @@
+/* Contenedor principal con altura fija */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.back-to-categories {
+  /* Tamaño y espaciado */
+  padding: 12px 25px;
+  font-size: 1.2rem; /* Texto más grande */
+  
+  /* Estilo neón (azul, pero puedes cambiar el color) */
+  background-color: transparent;
+  color: #0ff; /* Color neón cian */
+  border: 2px solid #0ff; /* Borde neón */
+  border-radius: 5px; /* Bordes ligeramente redondeados */
+  
+  /* Efecto de sombra para brillo neón */
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.5), /* Sombra exterior */
+    inset 0 0 10px rgba(0, 255, 255, 0.3); /* Sombra interior */
+  
+  /* Transición suave para efectos hover */
+  transition: all 0.3s ease;
+  
+  /* Texto en negrita y centrado */
+  font-weight: bold;
+  text-align: center;
+  
+  /* Espacio entre el ícono y el texto */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Efecto al pasar el mouse (brilla más fuerte) */
+.back-to-categories:hover {
+  background-color: rgba(0, 255, 255, 0.1); /* Fondo semi-transparente */
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.8),
+    inset 0 0 15px rgba(0, 255, 255, 0.5);
+  transform: scale(1.05); /* Ligero zoom al hover */
+}
+
+/* Estilo para el ícono (Font Awesome) */
+.back-to-categories i {
+  font-size: 1.1em; /* Tamaño del ícono */
+}
+
+/* Contenedor de categorías con scroll */
+.categories-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  padding: 15px;
+  overflow-y: auto;  
+  flex-grow: 1;
+}
+
+/* Contenedor de canales con scroll */
+.channels-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+  
+  overflow: hidden;
+}
+
+.channels-header {
+  padding: 10px;
+  background: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.channels-list {
+  overflow-y: auto;
+  flex-grow: 0; /* Cambia de 1 a 0 para evitar expansión */
+  flex-shrink: 1; /* Permite que se encoja si es necesario */
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  text-align: center;
+  font-size: 1.3rem;
+  height: auto; /* O una altura específica */
+}
+
+/* Estilos para los elementos */
+.category-card {
+  background: #2c3e50;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.category-card:hover {
+  transform: scale(1.03);
+}
+
+.channel-item {
+  background: #34495e;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.channel-item:hover {
+  background: #3d566e;
+}
+
+/* Barra de scroll personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2c3e50;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #34495e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d566e;
+}
+
+/* Estilos para el reproductor */
+#player-container {
+  position: fixed;
+  top: 50%; /* Centrado vertical */
+  left: 50%; /* Centrado horizontal */
+  transform: translate(-10%, -50%); /* Ajuste fino del centrado */
+  width: 50%; /* Ancho del 80% de la pantalla (ajustable) */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Sombra para destacar */
+  background: #000;
+  z-index: 1000;
+  transition: all 0.3s;
+  max-height: 0;
+  overflow: hidden;
+}
+
+#player-container.visible {
+  max-height: 70vh;
+}
+
+#video-player {
+  width: 100%;
+  height: 100%;
+}
+
+#now-playing {
+  padding: 10px;
+  background: #1a252f;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#now-playing i {
+  color: #e74c3c;
+}
+
+.hidden {
+  display: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  z-index: 1001;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Mensajes cuando no hay contenido */
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 20px;
+  color: #7f8c8d;
+}
+
+/* Alertas */
+.alert {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+  animation: fadeIn 0.3s;
+}
+
+.alert.error {
+  background: #e74c3c;
+  color: white;
+}
+
+.alert.success {
+  background: #2ecc71;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos para la vista de detalles */
+.movie-details {
+  color: #ecf0f1;
+  padding: 15px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background: #3498db;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.detail-content {
+  display: flex;
+  gap: 20px;
+}
+
+.detail-poster {
+  flex: 0 0 300px;
+}
+
+.detail-poster img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.play-button {
+  width: 100%;
+  padding: 10px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.detail-info {
+  flex: 1;
+}
+
+.detail-info p {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .detail-content {
+    flex-direction: column;
+  }
+  
+  .detail-poster {
+    flex: 1;
+  }
+}
+
+/* Estilo del ícono (Font Awesome) */
+.back-button i {
+  font-size: 1.1em;
+}
+
+.home-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #0f0; /* Borde neón azul */
+  color: #0f0; /* Color neón azul */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.7),
+    inset 0 0 10px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1001; /* Asegura que esté por encima de otros elementos */
+  text-decoration: none;
+}
+
+.home-button:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.9),
+    inset 0 0 15px rgba(0, 255, 255, 0.5);
+  transform: scale(1.1);
+}

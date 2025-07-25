@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Canales en Vivo - IPTV</title>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="main-container">
+    <!-- Encabezado -->
+    <header>
+      <h1>Canales en Vivo</h1>
+      <div class="view-options">
+        <button id="view-grid"><i class="fas fa-th"></i></button>
+        <button id="view-list"><i class="fas fa-list"></i></button>        
+      </div>
+    </header>
+    
+    <!-- Contenedor de categorías (visible inicialmente) -->
+    <div id="categories-container" class="categories-container"></div>
+    
+    <!-- Contenedor de canales (oculto inicialmente) -->
+    <div id="channels-container" class="channels-container hidden">
+      <div class="channels-header">        
+        <h2 id="current-category">Categoría</h2>
+        <button class="back-to-categories"><i class="fas fa-arrow-left"></i> Volver</button>
+      </div>
+      <div id="channels-list" class="channels-list"></div>
+    </div>
+  </div>
+  
+  <!-- Reproductor (puede estar en otro archivo) -->
+  <div id="player-container" class="hidden">
+    <button id="close-player" class="close-btn">✖</button>
+    <div id="now-playing">
+      <i class="fas fa-play-circle"></i> Reproduciendo...
+    </div>
+    <video id="video-player" controls autoplay></video>
+  </div>
+  <script>
+    document.getElementById("close-player").addEventListener("click", function () {
+      const container = document.getElementById("player-container");
+      const video = document.getElementById("video-player");
+  
+      video.pause();
+      video.src = ""; // libera el video cargado
+  
+      container.classList.remove("visible");
+      setTimeout(() => {
+        container.classList.add("hidden"); // lo oculta después de la transición
+      }, 300); // espera a que termine la animación (0.3s)
+    });
+  </script>
+
+  <a href="../home.html" class="home-button">
+    <i class="fas fa-home"></i>
+  </a>
+
+  <script src="../shared/auth.js"></script>
+  <script src="../shared/player.js"></script>
+  <script src="main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</body>
+</html>

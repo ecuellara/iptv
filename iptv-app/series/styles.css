@@ -1,0 +1,384 @@
+/* Estilos base */
+.container {
+  display: flex;
+  height: 100vh;
+  background: #0f1923;
+}
+
+.sidebar {
+  width: 250px;
+  background: #1a252f;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Categorías */
+.category-item {
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #2c3e50;
+  border-radius: 6px;
+  color: #ecf0f1;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.category-item:hover {
+  background: #34495e;
+  transform: translateX(5px);
+}
+
+/* Grid de series */
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 15px;
+}
+
+/* Tarjeta individual de serie */
+.series-card {
+  background: #2c3e50;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.series-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Detalles de serie */
+.series-details {
+  color: #ecf0f1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.detail-header h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #3498db;
+}
+
+
+/* Contenedor principal de detalles */
+.detail-content {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+/* Poster/Imagen (lado izquierdo) */
+.detail-poster {
+  flex: 0 0 300px;
+  max-width: 100%;
+}
+
+.detail-poster img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s;
+}
+
+.detail-poster img:hover {
+  transform: scale(1.02);
+}
+
+/* Información (lado derecho) */
+.detail-info {
+  flex: 1;
+  min-width: 300px;
+  background: #1a252f;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.detail-description {
+  line-height: 1.6;
+  color: #bdc3c7;
+  font-size: 15px;
+}
+
+/* Estilo para cuando la imagen no carga */
+.detail-poster img[src*="no-image.jpg"] {
+  object-fit: contain;
+  background: #2c3e50;
+  padding: 20%;
+}
+
+/* Responsive: Apilar en móviles */
+@media (max-width: 768px) {
+  .detail-content {
+    flex-direction: column;
+  }
+  
+  .detail-poster {
+    flex: 1;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .detail-info {
+    min-width: 100%;
+  }
+}
+
+/* Temporadas y episodios - Listas desplegables */
+.season-list {
+  margin-top: 30px;
+}
+
+.season {
+  margin-bottom: 20px;
+  background: #1a252f;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.season-header {
+  padding: 15px 20px;
+  background: #2c3e50;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.season-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #ecf0f1;
+}
+
+.season-header i {
+  transition: transform 0.3s;
+}
+
+.season-header.active i {
+  transform: rotate(180deg);
+}
+
+.episodes-grid {
+  display: none;
+  padding: 15px;
+  
+  gap: 15px;
+  background: #1a252f;
+}
+
+.season.active .episodes-grid {
+  display: grid;
+}
+
+.episode-card {
+  background: #2c3e50;
+  padding: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.episode-card:hover {
+  background: #34495e;
+  transform: translateY(-3px);
+}
+
+.episode-number {
+  font-weight: bold;
+  color: #3498db;
+  margin-bottom: 5px;
+}
+
+.episode-title {
+  font-size: 18px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.episode-duration {
+  font-size: 12px;
+  color: #95a5a6;
+}
+
+
+/* Reproductor */
+#player-container {
+  position: fixed;
+  top: 50%; /* Centrado vertical */
+  left: 50%; /* Centrado horizontal */
+  transform: translate(-50%, -50%); /* Ajuste fino del centrado */
+  width: 50%; /* Ancho del 50% de la pantalla (ajustable) */  
+  background: #000;
+  z-index: 1000;
+  display: none;
+  max-height: 60vh;
+}
+
+#player-container video {
+  width: 100%;
+  height: calc(60vh - 40px);
+}
+
+#now-playing {
+  padding: 10px;
+  background: #1a252f;
+  color: white;
+}
+
+#close-player {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  z-index: 1001;
+  background: #c62828;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Estados */
+.hidden {
+  display: none;
+}
+
+.loading, .empty, .error {
+  padding: 20px;
+  text-align: center;
+  color: #95a5a6;
+}
+
+/* Alertas */
+.alert {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  z-index: 1000;
+  animation: fadeIn 0.3s;
+}
+
+.alert.error {
+  background: #e74c3c;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.series-cover-container {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+}
+
+.series-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.series-info {
+  padding: 15px;
+}
+
+.series-name {
+  font-size: 16px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.series-year {
+  font-size: 12px;
+  color: #95a5a6;
+}
+
+/* Estilo del ícono (Font Awesome) */
+.back-button i {
+  font-size: 1.1em;
+}
+
+.home-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #0f0; /* Borde neón azul */
+  color: #0f0; /* Color neón azul */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.7),
+    inset 0 0 10px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1001; /* Asegura que esté por encima de otros elementos */
+  text-decoration: none;
+}
+
+.home-button:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.9),
+    inset 0 0 15px rgba(0, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.back-button {
+  /* Tamaño y espaciado */
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  
+  /* Estilo neón azul */
+  background-color: transparent;
+  color: #0ff; /* Color neón cian */
+  border: 2px solid #0ff;
+  border-radius: 5px;
+  
+  /* Efecto de sombra para brillo neón */
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.5),
+    inset 0 0 10px rgba(0, 255, 255, 0.3);
+  
+  /* Transición suave para hover */
+  transition: all 0.3s ease;
+  
+  /* Texto y alineación */
+  font-weight: bold;
+  cursor: pointer;
+  
+  /* Flex para alinear ícono y texto */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}

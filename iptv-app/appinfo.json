@@ -1,0 +1,11 @@
+{
+  "id": "tvmania",
+  "version": "1.0.0",
+  "vendor": "Everson",
+  "type": "web",
+  "main": "index.html",
+  "title": "IPTV Player",
+  "icon": "./icons/icon.png",
+  "requiredPermissions": ["storage"],
+  "disableBackHistoryAPI": true
+}

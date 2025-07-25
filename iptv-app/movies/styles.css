@@ -1,0 +1,357 @@
+/* Estilos para el módulo de películas */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background: #1a252f;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.content {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #0f1923;
+}
+
+.loading, .empty, .error {
+  padding: 20px;
+  text-align: center;
+  color: #95a5a6;
+}
+
+.category-item {
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ecf0f1;
+}
+
+.category-item:hover {
+  background: #2c3e50;
+}
+
+.category-item.active {
+  background: #3498db;
+}
+
+.category-item i {
+  width: 20px;
+  text-align: center;
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.movie-card {
+  background: #2c3e50;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-cover-container {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+}
+
+.movie-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-cover, .series-cover {
+  background: #2c3e50; /* Color de fondo mientras carga */
+  object-fit: cover;
+}
+
+.movie-rating {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #f1c40f;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.movie-info {
+  padding: 10px;
+}
+
+.movie-title {
+  font-size: 16px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #95a5a6;
+}
+
+#player-container.hidden {
+  display: none;
+}
+
+/* Contenedor principal */
+.movie-details {
+  color: #ecf0f1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header (título + botón volver) */
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.detail-header h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #3498db;
+}
+
+/* Contenido (póster + info) */
+.detail-content {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* Póster (izquierda) */
+.detail-poster {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-poster img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  aspect-ratio: 2/3; /* Relación de aspecto de póster */
+  object-fit: cover;
+}
+
+/* Botón de reproducir */
+.play-button {
+  padding: 12px 20px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.play-button:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+.play-button i {
+  font-size: 14px;
+}
+
+/* Información (derecha) */
+.detail-info {
+  flex: 1;
+  min-width: 300px;
+  background: #1a252f;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.detail-info p {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.detail-info strong {
+  color: #3498db;
+  min-width: 100px;
+  display: inline-block;
+}
+
+/* Estilo para cuando la imagen falla */
+.detail-poster img[src*='no-image.jpg'] {
+  background: #2c3e50;
+  padding: 20%;
+  object-fit: contain;
+}
+
+/* Responsive: Apilar en móviles */
+@media (max-width: 768px) {
+  .detail-content {
+    flex-direction: column;
+  }
+  
+  .detail-poster {
+    flex: 1;
+    max-width: 100%;
+  }
+}
+
+/* Estilos para el reproductor */
+#player-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 900px;
+    background: #000;
+    z-index: 1000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+#player-container.hidden {
+    display: none;
+}
+
+#player-container video {
+    width: 100%;
+    height: calc(70vh - 40px);
+}
+
+#now-playing {
+    padding: 10px;
+    background: #1a252f;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#close-player {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+#close-player:hover {
+    background: #c0392b;
+}
+
+
+
+.back-button {
+  /* Tamaño y espaciado */
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  
+  /* Estilo neón azul */
+  background-color: transparent;
+  color: #0ff; /* Color neón cian */
+  border: 2px solid #0ff;
+  border-radius: 5px;
+  
+  /* Efecto de sombra para brillo neón */
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.5),
+    inset 0 0 10px rgba(0, 255, 255, 0.3);
+  
+  /* Transición suave para hover */
+  transition: all 0.3s ease;
+  
+  /* Texto y alineación */
+  font-weight: bold;
+  cursor: pointer;
+  
+  /* Flex para alinear ícono y texto */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Efecto hover (brilla más fuerte) */
+.back-button:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.8),
+    inset 0 0 15px rgba(0, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+/* Estilo del ícono (Font Awesome) */
+.back-button i {
+  font-size: 1.1em;
+}
+
+.home-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #0f0; /* Borde neón azul */
+  color: #0f0; /* Color neón azul */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.7),
+    inset 0 0 10px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1001; /* Asegura que esté por encima de otros elementos */
+  text-decoration: none;
+}
+
+.home-button:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.9),
+    inset 0 0 15px rgba(0, 255, 255, 0.5);
+  transform: scale(1.1);
+}
