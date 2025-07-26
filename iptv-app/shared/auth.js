@@ -4,8 +4,8 @@ const isWebOS = (() => {
   } catch (e) {
     return false;
   }
-})();
-
+})();  
+  
 class Auth {
   static login(server, user, pass, callback) {
     const accountData = {
