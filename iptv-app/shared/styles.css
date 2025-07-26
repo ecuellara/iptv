@@ -262,9 +262,11 @@ body {
 /* Content Modules - Tamaño grande para TV */
 .content-modules {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Fuerza 3 columnas */
   gap: 3rem;
-  margin-top: 3rem;
+  justify-items: center; /* Centra cada tarjeta horizontalmente */
+  align-items: center;
+  padding: 3rem;
 }
 
 .module-card {
@@ -424,4 +426,117 @@ body {
     min-height: 250px;
     padding: 1.5rem;
   }
+}
+
+.live-clock {
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: #f5f5f5;
+  color: #333;
+  padding: 8px 15px;
+  border-radius: 20px;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Header - Logo izquierda, reloj derecha, responsive */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.header h1 i {
+  margin-right: 15px;
+  color: var(--primary-color);
+}
+
+/* Reloj */
+.live-clock {
+  font-size: 1.4rem;
+  font-weight: bold;
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 10px 20px;
+  border-radius: 20px;
+  min-width: 140px;
+  text-align: center;
+  border: 1px solid #333;
+}
+
+/* Content Modules - 3 tarjetas siempre visibles y centradas */
+.content-modules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 3rem;
+  justify-items: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+.module-card {
+  width: 100%;
+  max-width: 450px;
+  min-height: 350px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.module-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsivo - 1 o 2 columnas en pantallas más pequeñas */
+@media (max-width: 1200px) {
+  .content-modules {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .live-clock {
+    position: static;
+    margin-top: 10px;
+  }
+
+  .module-card {
+    min-height: 300px;
+    padding: 2rem;
+  }
+}
+
+.account-expiration {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;  
+  font-size: 1.2rem;
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 8px 12px;
+  border-radius: 10px;
 }
