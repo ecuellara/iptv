@@ -11,13 +11,20 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
     Auth.getCurrentAccount(function(account) {
-      if (!account || !account.user) {
+      if (!account || !account.user || !account.pass || !account.server) {
         window.location.href = 'index.html';
         return;
       }
       
       // Mostrar información de la cuenta
       document.getElementById('current-account').textContent = account.user;
+
+      // Mostrar fecha de expiración
+      if (account.exp_date) {
+        const expirationEl = document.getElementById('account-expiration');
+        const date = new Date(Number(account.exp_date) * 1000);
+        expirationEl.textContent = `Vigencia: ${date.toLocaleDateString()}`;
+      }
       
       // Manejar cambio de cuenta
       document.getElementById('switch-account').addEventListener('click', () => {
@@ -25,6 +32,21 @@
           window.location.href = 'index.html';
         });
       });
+
+      // Obtener detalles del usuario incluyendo exp_date
+      fetch(`${account.server}/player_api.php?username=${account.user}&password=${account.pass}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.user_info && data.user_info.exp_date) {
+            const expiration = new Date(data.user_info.exp_date * 1000);
+            document.getElementById('account-expiration').textContent =
+              `Vigencia: ${expiration.toLocaleDateString()}`;
+          }
+        })
+        .catch(error => {
+          console.error('No se pudo obtener la vigencia de la cuenta', error);
+        });
+
     });
   });
 
@@ -36,7 +58,8 @@
         <span id="current-account"></span>
         <button id="switch-account"><i class="fas fa-exchange-alt"></i> Cambiar cuenta</button>
       </div>
-    </div>
+      <div id="live-clock" class="live-clock"></div>
+    </div>    
     
     <div class="content-modules">
       <a href="live/index.html" class="module-card">
@@ -64,7 +87,24 @@
       </a>
     </div>
   </div>
+  <div id="account-expiration" class="account-expiration"></div>
 
+  <script>
+    function updateLiveClock() {
+      const clockElement = document.getElementById('live-clock');
+      if (!clockElement) return;
+  
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+  
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+  
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock(); // primera llamada inmediata
+  </script>
   
 </body>
 </html>
